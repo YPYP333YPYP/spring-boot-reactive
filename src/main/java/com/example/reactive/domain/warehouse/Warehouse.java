@@ -18,10 +18,9 @@ public class Warehouse {
     private Long id;
 
     @Column("warehouse_type")
-    private WarehouseType warehouseType;
-
-    private String location;
-    private String description;
+    private WarehouseType warehouseType; // 창고 분류
+    private String location; // 위치
+    private String description; // 설명
 
     public enum WarehouseType {
         REFRIGERATED, // 냉장
