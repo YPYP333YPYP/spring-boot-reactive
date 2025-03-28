@@ -25,7 +25,6 @@ public class Product {
     private String category;       // 카테고리
     private String supplier;       // 공급업체
     private Integer currentStock;  // 현재 재고수량
-    private Integer thresholdLevel; // 임계량
     private LocalDateTime lastUsedAt; // 최근 사용일
     private LocalDateTime createdAt; // 생성일
     private LocalDateTime updatedAt; // 수정일
