@@ -1,5 +1,8 @@
 package com.example.reactive.global.config;
 
+import com.example.reactive.domain.inventory_event.EventTypeConverter;
+import com.example.reactive.domain.notification.NotificationTypeConverter;
+import com.example.reactive.domain.user.UserRoleConverter;
 import com.example.reactive.domain.warehouse.WarehouseTypeConverter;
 import io.r2dbc.spi.ConnectionFactory;
 import java.util.ArrayList;
@@ -26,12 +29,27 @@ public class R2dbcConfig extends AbstractR2dbcConfiguration {
         return applicationContext.getBean(ConnectionFactory.class);
     }
 
+    /*
+    * ReadingConverter: 데이터베이스에서 읽은 String 값을 Java Enum 타입으로 변환
+    * WritingConverter: Java Enum 타입을 데이터베이스에 저장할 String 값으로 변환
+    * R2dbcCustomConversions: R2DBC가 사용할 커스텀 컨버터들을 등록하는 역할
+    * */
     @Bean
     @Override
     public R2dbcCustomConversions r2dbcCustomConversions() {
         List<Object> converters = new ArrayList<>();
+        // Warehouse - WarehouseType Converter
         converters.add(new WarehouseTypeConverter.StringToWarehouseTypeConverter());
         converters.add(new WarehouseTypeConverter.WarehouseTypeToStringConverter());
+        // InventoryEvent - EventType Converter
+        converters.add(new EventTypeConverter.StringToEventTypeConverter());
+        converters.add(new EventTypeConverter.EventTypeToStringConverter());
+        // User - UserRole Converter
+        converters.add(new UserRoleConverter.StringToUserRoleConverter());
+        converters.add(new UserRoleConverter.UserRoleToStringConverter());
+        // Notification - NotificationType Converter
+        converters.add(new NotificationTypeConverter.StringToNotificationTypeConverter());
+        converters.add(new NotificationTypeConverter.NotificationTypeToStringConverter());
         return super.r2dbcCustomConversions();
     }
 
