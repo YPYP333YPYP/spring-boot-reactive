@@ -41,6 +41,27 @@ CREATE TABLE IF NOT EXISTS inventory
     CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products(id)
 );
 
+-- InventoryEvent (재고 이벤트)
+CREATE TABLE IF NOT EXISTS inventory_events (
+    id SERIAL PRIMARY KEY,
+    inventory_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    warehouse_id BIGINT NOT NULL,
+    event_type VARCHAR(50) NOT NULL,
+    previous_quantity DECIMAL(10, 2),
+    new_quantity DECIMAL(10, 2),
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    metadata JSONB,  -- 추가 메타데이터를 위한 JSONB 필드
+
+    -- 외래 키 제약 조건
+    CONSTRAINT fk_inventory FOREIGN KEY (inventory_id) REFERENCES inventory(id),
+    CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products(id),
+    CONSTRAINT fk_warehouse FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
+);
+
 -- 인덱스 생성 (성능 최적화)
 CREATE INDEX IF NOT EXISTS idx_inventory_warehouse ON inventory(warehouse_id);
 CREATE INDEX IF NOT EXISTS idx_inventory_product ON inventory(product_id);
+CREATE INDEX IF NOT EXISTS idx_inventory_events_inventory ON inventory_events(inventory_id);
+CREATE INDEX IF NOT EXISTS idx_inventory_events_product ON inventory_events(product_id);
+CREATE INDEX IF NOT EXISTS idx_inventory_events_warehouse ON inventory_events(warehouse_id);
