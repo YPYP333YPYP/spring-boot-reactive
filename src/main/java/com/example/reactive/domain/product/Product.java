@@ -19,7 +19,7 @@ public class Product {
     private Long id;
 
     @Column("product_name")
-    private String name;           // 제품 이름
+    private String productName;           // 제품 이름
     private String unit;           // 단위
     private Double price;          // 가격
     private String category;       // 카테고리
