@@ -73,6 +73,35 @@ CREATE TABLE IF NOT EXISTS users
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+-- Notification (알람)
+CREATE TABLE IF NOT EXISTS notifications
+(
+    id SERIAL PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    message TEXT NOT NULL,
+    type VARCHAR(50) NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE IF NOT EXISTS suppliers
+(
+    id SERIAL PRIMARY KEY,
+    supplier_name VARCHAR(255) NOT NULL,
+    contact_person VARCHAR(100),
+    email VARCHAR(255),
+    phone VARCHAR(50),
+    address TEXT,
+    tax_id VARCHAR(50),
+    notes TEXT,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- 인덱스 생성 (성능 최적화)
 CREATE INDEX IF NOT EXISTS idx_inventory_warehouse ON inventory(warehouse_id);
 CREATE INDEX IF NOT EXISTS idx_inventory_product ON inventory(product_id);
