@@ -42,7 +42,8 @@ CREATE TABLE IF NOT EXISTS inventory
 );
 
 -- InventoryEvent (재고 이벤트)
-CREATE TABLE IF NOT EXISTS inventory_events (
+CREATE TABLE IF NOT EXISTS inventory_events
+(
     id SERIAL PRIMARY KEY,
     inventory_id BIGINT NOT NULL,
     product_id BIGINT NOT NULL,
@@ -57,6 +58,19 @@ CREATE TABLE IF NOT EXISTS inventory_events (
     CONSTRAINT fk_inventory FOREIGN KEY (inventory_id) REFERENCES inventory(id),
     CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES products(id),
     CONSTRAINT fk_warehouse FOREIGN KEY (warehouse_id) REFERENCES warehouses(id)
+);
+
+-- User (유저)
+CREATE TABLE IF NOT EXISTS users
+(
+    id SERIAL PRIMARY KEY,
+    username VARCHAR(100) NOT NULL UNIQUE,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    user_role VARCHAR(20) NOT NULL,
+    is_active BOOLEAN DEFAULT TRUE,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- 인덱스 생성 (성능 최적화)
